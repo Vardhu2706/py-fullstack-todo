@@ -1,4 +1,4 @@
-# py-fullstack-todo
+# Todo Fullstack App
 
 A simple **Python full‑stack To‑Do application** (backend + server-rendered frontend) — example project to learn FastAPI, templating, and basic CRUD flows.
 
