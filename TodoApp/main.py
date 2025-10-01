@@ -1,0 +1,27 @@
+from fastapi import FastAPI, Request
+from starlette import status
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
+
+from .models import Base
+from .database import engine
+from .routers import auth, todos, admin, users
+
+app = FastAPI()
+
+Base.metadata.create_all(bind=engine)
+
+app.mount('/static', StaticFiles(directory='TodoApp/static'), name='static')
+
+@app.get("/")
+def return_home():
+    return RedirectResponse(url="/todos/todo-page", status_code=status.HTTP_302_FOUND)
+
+@app.get("/healthz")
+def health_check():
+    return {'status': 'ok'}
+
+app.include_router(auth.router)
+app.include_router(todos.router)
+app.include_router(admin.router)
+app.include_router(users.router)
